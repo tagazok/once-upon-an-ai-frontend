@@ -150,7 +150,7 @@ export class App implements AfterViewChecked {
     this.isStreaming.set(true);
 
     try {
-      const response = await fetch('http://0.0.0.0:8009/inquire', {
+      const response = await fetch('https://0.0.0.0:8009/inquire', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
