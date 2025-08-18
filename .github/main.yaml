@@ -20,4 +20,8 @@ jobs:
         angular_dist_build_folder: dist/once-upon-agentic-ai-frontend # The folder where your project is supposed to be after running ng build by the action.
 
 permissions:
+<<<<<<< HEAD
   contents: write
+=======
+  contents: write
+>>>>>>> 9acba6d6a2eaa0a6bab56804f029132b51717416
