@@ -11,6 +11,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { Router } from '@angular/router';
+import { serverUrlValidator } from './serverUrlValidator';
 
 @Component({
   selector: 'app-new-game',
@@ -27,14 +28,19 @@ import { Router } from '@angular/router';
 })
 export class NewGame {
   private router = inject(Router);
-  
+
   serverUrl: string = '';
 
   newGameForm = new FormGroup({
-    name: new FormControl(''),
-    class: new FormControl(''),
-    race: new FormControl(''),
-    gender: new FormControl(''),
+    name: new FormControl('', Validators.required),
+    class: new FormControl('', Validators.required),
+    race: new FormControl('', Validators.required),
+    gender: new FormControl('', Validators.required),
+    serverUrl: new FormControl('', {
+      validators: [Validators.required],
+      asyncValidators: [serverUrlValidator],
+      updateOn: 'blur'
+    }),
   });
 
   constructor() {
@@ -74,7 +80,12 @@ export class NewGame {
   genders: string[] = ['man', 'woman', 'no gender'];
 
   async start() {
-    debugger;
+    if (this.newGameForm.value.serverUrl) {
+      localStorage.setItem('url', this.newGameForm.value.serverUrl);
+    } else {
+      return;
+    }
+
     const prompt = `The player's name is ${this.newGameForm.value.name} and you can welcome them to the game. 
 The player is a ${this.newGameForm.value.gender} ${this.newGameForm.value.race} ${this.newGameForm.value.class}.
 Describe the surroundings of the player and create an atmosphere that the player can bounce off of. 
@@ -92,12 +103,26 @@ Don't make more than 100 words.`;
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       } else {
-        this.router.navigate(['/game', "pouet"]);
+        this.router.navigate(['/game', 'pouet']);
       }
     } catch (error) {
       console.error('Request error:', error);
-    } finally {
-      // redirect to game page
+    }
+  }
+
+  async checkServerUrl() {
+    return true;
+    try {
+      const response = await fetch(`${this.newGameForm.value.serverUrl}/health`);
+      const data = await response.json();
+      if (data.status === "healthy") {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (error) {
+      console.log(error);
+      return false;
     }
   }
 }

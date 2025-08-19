@@ -40,6 +40,17 @@
             </mat-select>
         </mat-form-field>
 
-        <button matButton cdkFocusInitial>Generate</button>
+        <mat-form-field>
+            <mat-label>Server URL</mat-label>
+            <input type="text" matInput formControlName="serverUrl">
+            @if (newGameForm.controls.serverUrl.invalid) {
+            <mat-error>The server url is not valid</mat-error>
+            }
+            @if (newGameForm.controls.serverUrl.pending) {
+                <mat-hint>Checking server health...</mat-hint>
+            }
+        </mat-form-field>
+
+        <button matButton cdkFocusInitial [disabled]="!newGameForm.valid">Generate</button>
     </form>
 </div>
