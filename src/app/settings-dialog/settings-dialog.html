@@ -1,8 +1,8 @@
-<form class="example-form" (ngSubmit)="save()">
+<form (ngSubmit)="save()">
     <h2 mat-dialog-title>Settings</h2>
     <mat-dialog-content class="mat-typography">
 
-        <mat-form-field class="example-full-width" appearance="fill">
+        <mat-form-field>
             <mat-label>Server url</mat-label>
             <input type="text" matInput [formControl]="serverUrlFormControl">
             @if (serverUrlFormControl.hasError('email') && !serverUrlFormControl.hasError('required')) {
