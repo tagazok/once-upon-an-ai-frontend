@@ -151,7 +151,6 @@ export class Game implements AfterViewChecked {
     const data = await response.json();
     const message = JSON.parse(data[1].content[0].text);
 
-    debugger;
     // Extract response and suggestions from the JSON
     const agentResponse =
       message.response || 'No response received from the agent.';
