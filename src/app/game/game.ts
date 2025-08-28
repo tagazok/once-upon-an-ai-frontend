@@ -149,7 +149,8 @@ export class Game implements AfterViewChecked {
     }
 
     const data = await response.json();
-    const message = JSON.parse(data[1].content[0].text);
+    // const message = JSON.parse(data[1].content[0].text);
+    const message = JSON.parse(data.slice(-1)[0].content[0].text)
 
     // Extract response and suggestions from the JSON
     const agentResponse =
@@ -233,7 +234,8 @@ export class Game implements AfterViewChecked {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      const data = await response.json();
+      const result = await response.json();
+      const data = JSON.parse(result.response);
 
       // Extract response and suggestions from the JSON
       const agentResponse =

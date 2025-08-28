@@ -93,6 +93,12 @@
   .message {
     width: 95%;
   }
+
+  .message:not(:last-of-type) {
+    .suggestions {
+      display: none;
+    }
+  }
   
   .message.user {
     align-self: flex-end;
